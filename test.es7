@@ -1,0 +1,31 @@
+const __DEV__ = true;
+const admin = {
+  database: () => ({ref: () => ({once: Promise.resolve({val: () => ({test: 1})})})})
+}
+const functions = {
+  database: {
+    DeltaSnapshot: function () {
+    }
+  }
+};
+
+if (__DEV__) {
+  const onUpdateCompanyUserTest = async () => {
+    try {
+      const companyId = '...'
+      const email = '...'
+      const path = `company/${companyId}/users/${email}`
+      const ref = await admin.database().ref(path)
+      const userSnapshot = await ref.once('value')/*?*/
+      const userdata = userSnapshot.val()/*?*/
+      const data = new functions.database.DeltaSnapshot(null, null, userdata, userdata, path)/*?*/
+      const params = {companyId, email}/*?*/
+      // await exports.onUpdateCompanyUser({ data, params }) /*?*/
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+    return true
+  }
+  onUpdateCompanyUserTest()/*?*/
+}
